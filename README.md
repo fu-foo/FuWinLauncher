@@ -140,6 +140,13 @@ msbuild FuWinLauncher.sln /p:Configuration=Release /p:Platform=Win32
 | x64 Release | `x64/Release/FuWinLauncher.exe` |
 | x86 Release | `Release/FuWinLauncher.exe` |
 
+## Support
+
+If you find this project useful, consider supporting it:
+
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?logo=github)](https://github.com/sponsors/fu-foo)
+[![Ko-fi](https://img.shields.io/badge/Support-Ko--fi-FF5E5B?logo=kofi)](https://ko-fi.com/fufoo)
+
 ## License
 
 Apache License 2.0 - See [LICENSE](LICENSE) for details.
