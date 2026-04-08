@@ -29,6 +29,10 @@ A lightweight, customizable application launcher for Windows.
 └─────────────────────────────┘
 ```
 
+## Architecture
+
+FuWinLauncher is built entirely with the Win32 API and C++ standard library — no frameworks, no .NET, no external dependencies. The result is a single standalone `.exe` that runs on any Windows machine without installing runtimes or libraries. Just download and run.
+
 ## Getting Started
 
 1. Download `FuWinLauncher.exe` from [Releases](../../releases)
@@ -156,6 +160,10 @@ Apache License 2.0 - See [LICENSE](LICENSE) for details.
 # FuWinLauncher (日本語)
 
 Windows 向けの軽量カスタマイズ可能なアプリケーションランチャーです。
+
+## 設計
+
+Win32 API と C++ 標準ライブラリのみで構築しています。.NET やフレームワーク、外部ライブラリに一切依存しないため、EXE 単体でどの Windows 環境でもそのまま動作します。ランタイムのインストールは不要です。
 
 ## 特徴
 
