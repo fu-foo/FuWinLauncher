@@ -40,6 +40,16 @@ FuWinLauncher is built entirely with the Win32 API and C++ standard library — 
 3. `config.ini` is auto-created on first launch
 4. Press `Alt+Space` to show/hide the launcher
 
+## Auto-start on Login
+
+FuWinLauncher does not include an auto-start feature. To launch it automatically when you log in to Windows:
+
+1. Press `Win + R`, type `shell:startup`, and press Enter
+2. The Startup folder opens
+3. Create a shortcut to `FuWinLauncher.exe` in that folder
+
+That's it — it will start automatically on next login.
+
 ## Keyboard Shortcuts
 
 | Key | Action |
@@ -180,6 +190,16 @@ Win32 API と C++ 標準ライブラリのみで構築しています。.NET や
 1. [Releases](../../releases) から `FuWinLauncher.exe` をダウンロード
 2. 任意の場所に置いて実行（初回起動時に `config.ini` が自動生成されます）
 3. `Alt+Space` でランチャーの表示/非表示を切り替え
+
+## ログイン時に自動起動
+
+自動起動機能は内蔵していません。Windows ログイン時に自動で起動するには:
+
+1. `Win + R` を押して `shell:startup` と入力し Enter
+2. スタートアップフォルダが開きます
+3. `FuWinLauncher.exe` のショートカットをそのフォルダに作成
+
+次回ログインから自動的に起動します。
 
 ## キーボード操作
 
