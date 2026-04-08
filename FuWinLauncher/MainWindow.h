@@ -31,6 +31,7 @@ private:
     void OnDropFiles(HDROP hDrop);
     void OnRightClick(int x, int y);
     void DeleteApp(int index);
+    void ShowHelp();
     void EditApp(int index);
     void AddNewApp();
     bool ShowEditDialog(const wchar_t* title, std::wstring& name, std::wstring& path);

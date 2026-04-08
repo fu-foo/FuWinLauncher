@@ -106,6 +106,10 @@ void I18n::Init() {
     // Help
     m_strings["tray.help"] = { L"\x30D8\x30EB\x30D7", L"Help" };  // Help
     m_strings["help.title"] = { L"FuWinLauncher - \x30D8\x30EB\x30D7", L"FuWinLauncher - Help" };
+    m_strings["help.support"] = {
+        L"\x2764 <a href=\"https://ko-fi.com/fufoo\">Ko-fi \x3067\x5FDC\x63F4\x3059\x308B</a>",
+        L"\x2764 <a href=\"https://ko-fi.com/fufoo\">Support on Ko-fi</a>"
+    };
     m_strings["help.text"] = {
         // Japanese
         L"FuWinLauncher - \x30E9\x30F3\x30C1\x30E3\x30FC\x30A2\x30D7\x30EA\r\n"
@@ -126,7 +130,9 @@ void I18n::Init() {
         L"  \x30FB \x6587\x5B57\x5165\x529B\x3067\x30A2\x30D7\x30EA\x3092\x7D5E\x308A\x8FBC\x307F\r\n"
         L"  \x30FB \x30BF\x30B9\x30AF\x30C8\x30EC\x30A4\x53F3\x30AF\x30EA\x30C3\x30AF\x3067\x8A2D\x5B9A\x30FB\x30D8\x30EB\x30D7\r\n"
         L"  \x30FB \x2699 \x8A2D\x5B9A\x3067\x30C6\x30FC\x30DE\x30FB\x8272\x30FB\x80CC\x666F\x753B\x50CF\x306E\x30AB\x30B9\x30BF\x30DE\x30A4\x30BA\r\n"
-        L"  \x30FB \x65E5\x672C\x8A9E / English \x5BFE\x5FDC\r\n",
+        L"  \x30FB \x65E5\x672C\x8A9E / English \x5BFE\x5FDC\r\n"
+        L"\r\n"
+        L"GitHub: https://github.com/fu-foo/FuWinLauncher\r\n",
         // English
         L"FuWinLauncher - Launcher App\r\n"
         L"\r\n"
@@ -147,6 +153,8 @@ void I18n::Init() {
         L"  \x2022 Right-click tray for Settings / Help\r\n"
         L"  \x2022 \x2699 Customize theme, colors, background image\r\n"
         L"  \x2022 Japanese / English supported\r\n"
+        L"\r\n"
+        L"GitHub: https://github.com/fu-foo/FuWinLauncher\r\n"
     };
 
     // File dialog

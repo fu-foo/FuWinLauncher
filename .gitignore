@@ -26,5 +26,10 @@ Release/
 # User config (auto-generated on first launch)
 config.ini
 
+# Editor/tool config
+.vs/
+.vscode/
+.claude/
+
 # Test images
 bg_test.png

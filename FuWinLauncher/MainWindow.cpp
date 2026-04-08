@@ -5,6 +5,7 @@
 #include "resource.h"
 #include <windowsx.h>
 #include <shellapi.h>
+#include <commctrl.h>
 #include <algorithm>
 #include <gdiplus.h>
 #pragma comment(lib, "gdiplus.lib")
@@ -717,8 +718,7 @@ void MainWindow::OnCommand(WPARAM wParam, LPARAM /*lParam*/) {
         }
     }
     if (LOWORD(wParam) == IDC_HELP_BUTTON && HIWORD(wParam) == BN_CLICKED) {
-        MessageBoxW(m_hwnd, I18n::Get().T("help.text"),
-                    I18n::Get().T("help.title"), MB_OK | MB_ICONINFORMATION);
+        ShowHelp();
     }
 }
 
@@ -831,6 +831,127 @@ void MainWindow::OnRightClick(int x, int y) {
     } else if (cmd == IDM_APP_ADD) {
         AddNewApp();
     }
+}
+
+// Help dialog state
+struct HelpDlgState { bool closed = false; };
+static HelpDlgState* s_helpState = nullptr;
+
+static LRESULT CALLBACK HelpDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+    switch (msg) {
+    case WM_CREATE: {
+        auto cs = reinterpret_cast<CREATESTRUCTW*>(lParam);
+        s_helpState = static_cast<HelpDlgState*>(cs->lpCreateParams);
+
+        HFONT font = CreateFontW(15, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+            DEFAULT_CHARSET, 0, 0, CLEARTYPE_QUALITY, 0, L"Meiryo UI");
+
+        HINSTANCE hInst = GetModuleHandleW(nullptr);
+
+        // Measure help text height
+        const wchar_t* helpText = I18n::Get().T("help.text");
+        RECT clientRc;
+        GetClientRect(hwnd, &clientRc);
+        int contentW = clientRc.right - 24;
+
+        HDC hdc = GetDC(hwnd);
+        HFONT oldFont = static_cast<HFONT>(SelectObject(hdc, font));
+        RECT measureRc = { 0, 0, contentW, 0 };
+        DrawTextW(hdc, helpText, -1, &measureRc, DT_CALCRECT | DT_WORDBREAK);
+        int textH = measureRc.bottom + 4;
+        SelectObject(hdc, oldFont);
+        ReleaseDC(hwnd, hdc);
+
+        // Help text (static)
+        HWND textCtrl = CreateWindowExW(0, L"STATIC", helpText,
+            WS_CHILD | WS_VISIBLE,
+            12, 10, contentW, textH,
+            hwnd, nullptr, hInst, nullptr);
+        SendMessageW(textCtrl, WM_SETFONT, reinterpret_cast<WPARAM>(font), TRUE);
+
+        int btnY = 10 + textH + 8;
+
+        // Ko-fi button
+        const wchar_t* kofiLabel = (I18n::Get().GetLang() == Lang::JA)
+            ? L"\x2764 Ko-fi \x3067\x5FDC\x63F4\x3059\x308B" : L"\x2764 Support on Ko-fi";
+        HWND kofiBtn = CreateWindowExW(0, L"BUTTON", kofiLabel,
+            WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | WS_TABSTOP,
+            12, btnY, 200, 30,
+            hwnd, reinterpret_cast<HMENU>(static_cast<INT_PTR>(200)), hInst, nullptr);
+        SendMessageW(kofiBtn, WM_SETFONT, reinterpret_cast<WPARAM>(font), TRUE);
+
+        int okY = btnY + 40;
+
+        // OK button
+        HWND okBtn = CreateWindowExW(0, L"BUTTON", L"OK",
+            WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | WS_TABSTOP,
+            170, okY, 80, 30,
+            hwnd, reinterpret_cast<HMENU>(IDOK), hInst, nullptr);
+        SendMessageW(okBtn, WM_SETFONT, reinterpret_cast<WPARAM>(font), TRUE);
+
+        // Resize dialog to fit content
+        int neededH = okY + 30 + 16;
+        RECT wr2 = { 0, 0, 420, neededH };
+        AdjustWindowRectEx(&wr2, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU, FALSE, 0);
+        SetWindowPos(hwnd, nullptr, 0, 0, wr2.right - wr2.left, wr2.bottom - wr2.top,
+                     SWP_NOMOVE | SWP_NOZORDER);
+        return 0;
+    }
+    case WM_COMMAND:
+        if (LOWORD(wParam) == 200) {
+            ShellExecuteW(nullptr, L"open", L"https://ko-fi.com/fufoo", nullptr, nullptr, SW_SHOWNORMAL);
+        }
+        if (LOWORD(wParam) == IDOK) DestroyWindow(hwnd);
+        return 0;
+    case WM_CLOSE:
+        DestroyWindow(hwnd);
+        return 0;
+    case WM_DESTROY:
+        if (s_helpState) s_helpState->closed = true;
+        return 0;
+    }
+    return DefWindowProcW(hwnd, msg, wParam, lParam);
+}
+
+void MainWindow::ShowHelp() {
+    static bool classRegistered = false;
+    if (!classRegistered) {
+        WNDCLASSEXW wc = {};
+        wc.cbSize = sizeof(wc);
+        wc.lpfnWndProc = HelpDlgProc;
+        wc.hInstance = m_hInstance;
+        wc.hCursor = LoadCursorW(nullptr, IDC_ARROW);
+        wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
+        wc.lpszClassName = L"FuWinHelpDlg";
+        RegisterClassExW(&wc);
+        classRegistered = true;
+    }
+
+    HelpDlgState state;
+
+    RECT wr = { 0, 0, 420, 400 };
+    AdjustWindowRectEx(&wr, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU, FALSE, 0);
+    int screenW = GetSystemMetrics(SM_CXSCREEN);
+    int screenH = GetSystemMetrics(SM_CYSCREEN);
+
+    HWND dlg = CreateWindowExW(0, L"FuWinHelpDlg", I18n::Get().T("help.title"),
+        WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU,
+        (screenW - (wr.right - wr.left)) / 2, (screenH - (wr.bottom - wr.top)) / 2,
+        wr.right - wr.left, wr.bottom - wr.top,
+        m_hwnd, nullptr, m_hInstance, &state);
+
+    EnableWindow(m_hwnd, FALSE);
+    ShowWindow(dlg, SW_SHOW);
+
+    MSG msg;
+    while (!state.closed && GetMessageW(&msg, nullptr, 0, 0)) {
+        if (IsDialogMessageW(dlg, &msg)) continue;
+        TranslateMessage(&msg);
+        DispatchMessageW(&msg);
+    }
+
+    EnableWindow(m_hwnd, TRUE);
+    SetForegroundWindow(m_hwnd);
 }
 
 void MainWindow::DeleteApp(int index) {
