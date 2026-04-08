@@ -32,6 +32,16 @@ FuWinLauncher is built entirely with the Win32 API and C++ standard library — 
 3. `config.ini` is auto-created on first launch
 4. Press `Alt+Space` to show/hide the launcher
 
+## Windows SmartScreen Warning
+
+Since the EXE is not digitally signed, Windows SmartScreen may show a blue warning dialog when you first run it. This is normal for unsigned open-source software.
+
+To proceed:
+1. Click **"More info"**
+2. Click **"Run anyway"**
+
+This only happens on the first launch.
+
 ## Auto-start on Login
 
 FuWinLauncher does not include an auto-start feature. To launch it automatically when you log in to Windows:
@@ -182,6 +192,16 @@ Win32 API と C++ 標準ライブラリのみで構築しています。.NET や
 1. [Releases](../../releases) から `FuWinLauncher.exe` をダウンロード
 2. 任意の場所に置いて実行（初回起動時に `config.ini` が自動生成されます）
 3. `Alt+Space` でランチャーの表示/非表示を切り替え
+
+## Windows SmartScreen の警告
+
+EXE にデジタル署名がないため、初回実行時に Windows SmartScreen の青い警告画面が表示されることがあります。署名のないオープンソースソフトウェアでは一般的な動作です。
+
+実行するには:
+1. **「詳細情報」** をクリック
+2. **「実行」** をクリック
+
+この警告は初回のみ表示されます。
 
 ## ログイン時に自動起動
 
