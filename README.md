@@ -42,6 +42,12 @@ To proceed:
 
 This only happens on the first launch.
 
+## Exiting the App
+
+Closing the window (× button or `Esc`) hides it to the system tray — it does not quit the app. To fully exit:
+
+- Right-click the tray icon → **Exit**
+
 ## Auto-start on Login
 
 FuWinLauncher does not include an auto-start feature. To launch it automatically when you log in to Windows:
@@ -202,6 +208,12 @@ EXE にデジタル署名がないため、初回実行時に Windows SmartScree
 2. **「実行」** をクリック
 
 この警告は初回のみ表示されます。
+
+## アプリの終了
+
+ウィンドウを閉じる（×ボタンや `Esc`）とタスクトレイに格納されます。アプリは終了しません。完全に終了するには:
+
+- タスクトレイアイコンを右クリック → **終了**
 
 ## ログイン時に自動起動
 
