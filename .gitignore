@@ -1,0 +1,27 @@
+# Build output
+x64/
+Debug/
+Release/
+*.obj
+*.pdb
+*.ilk
+*.iobj
+*.ipdb
+*.log
+*.tlog
+*.lastbuildstate
+*.recipe
+*.idb
+
+# VS files
+.vs/
+*.user
+*.suo
+*.ncb
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.opendb
+
+# Test images
+bg_test.png

@@ -1,0 +1,41 @@
+#pragma once
+
+#define IDC_SEARCH_EDIT  1001
+#define IDH_HOTKEY       1
+#define IDI_APP_ICON     101
+#define IDC_PIN_BUTTON       1002
+#define IDC_SETTINGS_BUTTON  1003
+#define IDC_HELP_BUTTON      1004
+#define IDM_TRAY_SHOW    2001
+#define IDM_TRAY_EXIT    2002
+#define IDM_TRAY_SETTINGS 2003
+#define IDM_TRAY_HELP     2004
+#define IDM_APP_DELETE    2005
+#define IDM_APP_EDIT      2006
+#define IDM_APP_ADD       2007
+
+#define IDC_SET_APPLIST       3001
+#define IDC_SET_ADD           3002
+#define IDC_SET_DELETE        3003
+#define IDC_SET_UP            3004
+#define IDC_SET_DOWN          3005
+#define IDC_SET_HOTKEY        3006
+#define IDC_SET_OPACITY       3007
+#define IDC_SET_OPACITY_LABEL 3008
+#define IDC_SET_MAXHEIGHT     3009
+#define IDC_SET_TOPMOST       3010
+#define IDC_SET_TITLEBARCOLOR_BTN  3011
+#define IDC_SET_TITLETEXTCOLOR_BTN 3012
+#define IDC_SET_BGCOLOR_BTN       3013
+#define IDC_SET_TEXTCOLOR_BTN     3014
+#define IDC_SET_SELECTCOLOR_BTN   3015
+#define IDC_SET_SEARCHBGCOLOR_BTN  3020
+#define IDC_SET_SEARCHTEXTCOLOR_BTN 3021
+#define IDC_SET_BGIMAGE_BTN       3016
+#define IDC_SET_BGALPHA           3017
+#define IDC_SET_BGALPHA_LABEL     3018
+#define IDC_SET_CUSTOMICON_BTN    3019
+#define IDC_SET_OK            IDOK
+#define IDC_SET_CANCEL        IDCANCEL
+
+#define WM_TRAYICON      (WM_USER + 1)
