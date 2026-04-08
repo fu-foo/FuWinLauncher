@@ -23,5 +23,8 @@ Release/
 *.VC.db
 *.VC.opendb
 
+# User config (auto-generated on first launch)
+config.ini
+
 # Test images
 bg_test.png
