@@ -27,7 +27,7 @@ FuWinLauncher is built entirely with the Win32 API and C++ standard library — 
 
 ## Getting Started
 
-1. Download `FuWinLauncher.exe` from [Releases](../../releases)
+1. Download `FuWinLauncher.exe` from [Releases](https://github.com/fu-foo/FuWinLauncher/releases)
 2. Place it anywhere and run
 3. `config.ini` is auto-created on first launch
 4. Press `Alt+Space` to show/hide the launcher
@@ -189,7 +189,7 @@ Win32 API と C++ 標準ライブラリのみで構築しています。.NET や
 
 ## 使い方
 
-1. [Releases](../../releases) から `FuWinLauncher.exe` をダウンロード
+1. [Releases](https://github.com/fu-foo/FuWinLauncher/releases) から `FuWinLauncher.exe` をダウンロード
 2. 任意の場所に置いて実行（初回起動時に `config.ini` が自動生成されます）
 3. `Alt+Space` でランチャーの表示/非表示を切り替え
 
