@@ -184,3 +184,10 @@ Windows 向けの軽量カスタマイズ可能なアプリケーションラン
 | 文字入力 | アプリ絞り込み |
 
 設定項目の詳細は上記英語セクションの Settings Reference / Theme Reference を参照してください。
+
+## サポート
+
+このプロジェクトが役に立ったら、ぜひ応援をお願いします:
+
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?logo=github)](https://github.com/sponsors/fu-foo)
+[![Ko-fi](https://img.shields.io/badge/Support-Ko--fi-FF5E5B?logo=kofi)](https://ko-fi.com/fufoo)
