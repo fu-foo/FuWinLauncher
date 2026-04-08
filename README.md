@@ -18,16 +18,8 @@ A lightweight, customizable application launcher for Windows.
 
 ## Screenshot
 
-```
-┌─────────────────────────────┐
-│ [Search...] [📌][⚙][ℹ]     │
-│─────────────────────────────│
-│ 🗒 Notepad                  │
-│ 📁 Explorer                 │
-│ 🌐 Chrome                   │
-│ ...                         │
-└─────────────────────────────┘
-```
+<img width="386" height="192" alt="image" src="https://github.com/user-attachments/assets/680adaad-78c9-4e2d-9e29-11303e88562e" />
+
 
 ## Architecture
 
