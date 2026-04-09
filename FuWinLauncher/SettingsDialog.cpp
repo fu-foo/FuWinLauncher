@@ -313,7 +313,7 @@ void SettingsDialog::CreateControls(HWND hwnd) {
         return edit;
     };
 
-    const auto& theme = m_config->GetTheme();
+    const auto& theme = m_config->GetBaseTheme();
 
     // TitleText
     makeLabel(I18n::Get().T("settings.titletext"), MARGIN, y + 2, LABEL_W, CTRL_H);
@@ -492,8 +492,8 @@ void SettingsDialog::OnOK(HWND hwnd) {
         m_config->SetSkin(skinBuf);
     }
 
-    // Theme
-    auto& theme = m_config->GetTheme();
+    // Theme - always write to base theme (user-edited values)
+    auto& theme = m_config->GetBaseTheme();
     wchar_t buf[MAX_PATH] = {};
 
     GetWindowTextW(m_titleTextEdit, buf, MAX_PATH);

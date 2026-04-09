@@ -1121,11 +1121,13 @@ void MainWindow::AddNewApp() {
 void MainWindow::ReloadFromConfig() {
     if (!m_config) return;
 
-    // Reapply skin if configured (overrides theme)
+    // Restore base theme, then apply skin overrides if configured
     if (!m_config->GetSkin().empty()) {
         std::wstring iniPath = m_config->GetIniPath();
         std::wstring exeDir = iniPath.substr(0, iniPath.find_last_of(L"\\/") + 1);
         m_config->LoadSkin(m_config->GetSkin(), exeDir);
+    } else {
+        m_config->ResetThemeToBase();
     }
 
     // Reapply opacity

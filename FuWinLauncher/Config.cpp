@@ -125,6 +125,9 @@ bool Config::Load(const std::wstring& iniPath) {
         }
     }
 
+    // Snapshot the user-edited theme as base (skin overrides apply on top later)
+    m_baseTheme = m_theme;
+
     return !m_apps.empty();
 }
 
@@ -189,6 +192,9 @@ static bool IsAbsolutePath(const std::wstring& p) {
 }
 
 bool Config::LoadSkin(const std::wstring& skinName, const std::wstring& exeDir) {
+    // Always start from the user's base theme so skin switches don't accumulate
+    m_theme = m_baseTheme;
+
     if (skinName.empty()) return false;
 
     std::wstring skinDir = exeDir + L"skins\\" + skinName + L"\\";
@@ -322,24 +328,24 @@ void Config::Save() {
     }
     file << "\n";
 
-    // [Theme]
+    // [Theme] - always save the user-edited base theme, not skin overrides
     file << "[Theme]\n";
-    file << "TitleText=" << WideToUtf8(m_theme.titleText) << "\n";
-    file << "TitleBarColor=" << ColorToString(m_theme.titleBarColor) << "\n";
-    file << "TitleTextColor=" << ColorToString(m_theme.titleTextColor) << "\n";
-    file << "BgColor=" << ColorToString(m_theme.bgColor) << "\n";
-    file << "TextColor=" << ColorToString(m_theme.textColor) << "\n";
-    file << "SelectColor=" << ColorToString(m_theme.selectColor) << "\n";
-    file << "SearchBgColor=" << ColorToString(m_theme.searchBgColor) << "\n";
-    file << "SearchTextColor=" << ColorToString(m_theme.searchTextColor) << "\n";
-    if (!m_theme.bgImage.empty()) {
-        file << "BgImage=" << WideToUtf8(m_theme.bgImage) << "\n";
-        file << "BgImageAlpha=" << static_cast<int>(m_theme.bgImageAlpha) << "\n";
+    file << "TitleText=" << WideToUtf8(m_baseTheme.titleText) << "\n";
+    file << "TitleBarColor=" << ColorToString(m_baseTheme.titleBarColor) << "\n";
+    file << "TitleTextColor=" << ColorToString(m_baseTheme.titleTextColor) << "\n";
+    file << "BgColor=" << ColorToString(m_baseTheme.bgColor) << "\n";
+    file << "TextColor=" << ColorToString(m_baseTheme.textColor) << "\n";
+    file << "SelectColor=" << ColorToString(m_baseTheme.selectColor) << "\n";
+    file << "SearchBgColor=" << ColorToString(m_baseTheme.searchBgColor) << "\n";
+    file << "SearchTextColor=" << ColorToString(m_baseTheme.searchTextColor) << "\n";
+    if (!m_baseTheme.bgImage.empty()) {
+        file << "BgImage=" << WideToUtf8(m_baseTheme.bgImage) << "\n";
+        file << "BgImageAlpha=" << static_cast<int>(m_baseTheme.bgImageAlpha) << "\n";
         const char* modes[] = { "center", "stretch", "tile" };
-        file << "BgImageMode=" << modes[std::clamp(m_theme.bgImageMode, 0, 2)] << "\n";
+        file << "BgImageMode=" << modes[std::clamp(m_baseTheme.bgImageMode, 0, 2)] << "\n";
     }
-    if (!m_theme.customIcon.empty()) {
-        file << "CustomIcon=" << WideToUtf8(m_theme.customIcon) << "\n";
+    if (!m_baseTheme.customIcon.empty()) {
+        file << "CustomIcon=" << WideToUtf8(m_baseTheme.customIcon) << "\n";
     }
 }
 

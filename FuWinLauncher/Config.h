@@ -54,6 +54,9 @@ public:
     void SetSkin(const std::wstring& v) { m_skin = v; }
     const ThemeConfig& GetTheme() const { return m_theme; }
     ThemeConfig& GetTheme() { return m_theme; }
+    const ThemeConfig& GetBaseTheme() const { return m_baseTheme; }
+    ThemeConfig& GetBaseTheme() { return m_baseTheme; }
+    void ResetThemeToBase() { m_theme = m_baseTheme; }
 
     void SetOpacity(BYTE v) { m_opacity = v; }
     void SetHotKey(UINT mod, UINT vk) { m_hotKeyMod = mod; m_hotKeyVK = vk; }
@@ -79,5 +82,6 @@ private:
     bool m_showHelpButton = true;
     std::wstring m_language;
     std::wstring m_skin;
-    ThemeConfig m_theme;
+    ThemeConfig m_theme;       // active theme (base + skin overrides)
+    ThemeConfig m_baseTheme;   // user-edited theme (saved to config.ini)
 };
