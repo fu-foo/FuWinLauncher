@@ -786,6 +786,13 @@ void MainWindow::LaunchSelected() {
         Launcher::Launch(m_filtered[m_selectedIndex]->path);
         if (m_config && m_config->GetHideOnLaunch()) {
             Hide();
+        } else {
+            // Reset search state so the launcher is ready for the next pick
+            m_searchBox.Clear();
+            m_selectedIndex = 0;
+            m_scrollOffset = 0;
+            UpdateFilter();
+            m_searchBox.SetFocusToEdit();
         }
     }
 }
