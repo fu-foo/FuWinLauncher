@@ -59,10 +59,13 @@ bool App::Init(HINSTANCE hInstance) {
     m_mainWindow.SetConfig(&m_config);
     m_mainWindow.SetApps(m_config.GetApps());
 
-    // Register hotkey
-    RegisterHotKey(m_mainWindow.GetHWND(), IDH_HOTKEY,
-                   m_config.GetHotKeyModifiers() | MOD_NOREPEAT,
-                   m_config.GetHotKeyVK());
+    // Register hotkey (warn if it fails - usually means another app holds it)
+    if (!RegisterHotKey(m_mainWindow.GetHWND(), IDH_HOTKEY,
+                        m_config.GetHotKeyModifiers() | MOD_NOREPEAT,
+                        m_config.GetHotKeyVK())) {
+        MessageBoxW(m_mainWindow.GetHWND(), I18n::Get().T("err.hotkey"),
+                    L"FuWinLauncher", MB_OK | MB_ICONWARNING);
+    }
 
     // Register tray icon
     AddTrayIcon();

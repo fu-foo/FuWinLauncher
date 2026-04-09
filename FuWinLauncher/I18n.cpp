@@ -60,6 +60,12 @@ void I18n::Init() {
                                    L"Place config.ini in the same folder as the EXE." };
     m_strings["err.window"]    = { L"\x30A6\x30A3\x30F3\x30C9\x30A6\x306E\x4F5C\x6210\x306B\x5931\x6557\x3057\x307E\x3057\x305F\x3002",
                                    L"Failed to create window." };
+    m_strings["err.hotkey"]    = { L"\x30DB\x30C3\x30C8\x30AD\x30FC\x306E\x767B\x9332\x306B\x5931\x6557\x3057\x307E\x3057\x305F\x3002\n"
+                                   L"\x4ED6\x306E\x30A2\x30D7\x30EA\x304C\x4F7F\x7528\x4E2D\x306E\x53EF\x80FD\x6027\x304C\x3042\x308A\x307E\x3059\x3002",
+                                   L"Failed to register hotkey.\n"
+                                   L"Another application may be using it." };
+    m_strings["err.gdiplus"]   = { L"GDI+ \x306E\x521D\x671F\x5316\x306B\x5931\x6557\x3057\x307E\x3057\x305F\x3002",
+                                   L"Failed to initialize GDI+." };
 
     // Settings dialog
     m_strings["settings.title"]     = { L"\x8A2D\x5B9A - FuWinLauncher", L"Settings - FuWinLauncher" };

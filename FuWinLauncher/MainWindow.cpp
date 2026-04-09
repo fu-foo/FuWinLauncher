@@ -22,7 +22,12 @@ MainWindow::~MainWindow() {
 
 bool MainWindow::Create(HINSTANCE hInstance, const Config& config) {
     Gdiplus::GdiplusStartupInput gdipInput;
-    Gdiplus::GdiplusStartup(&m_gdiplusToken, &gdipInput, nullptr);
+    if (Gdiplus::GdiplusStartup(&m_gdiplusToken, &gdipInput, nullptr) != Gdiplus::Ok) {
+        m_gdiplusToken = 0;  // ensure we don't try to shut down a failed init
+        MessageBoxW(nullptr, I18n::Get().T("err.gdiplus"),
+                    L"FuWinLauncher", MB_OK | MB_ICONERROR);
+        return false;
+    }
 
     m_hInstance = hInstance;
     m_maxHeight = config.GetMaxHeight();
@@ -1145,9 +1150,12 @@ void MainWindow::ReloadFromConfig() {
 
     // Re-register hotkey
     UnregisterHotKey(m_hwnd, IDH_HOTKEY);
-    RegisterHotKey(m_hwnd, IDH_HOTKEY,
-                   m_config->GetHotKeyModifiers() | MOD_NOREPEAT,
-                   m_config->GetHotKeyVK());
+    if (!RegisterHotKey(m_hwnd, IDH_HOTKEY,
+                        m_config->GetHotKeyModifiers() | MOD_NOREPEAT,
+                        m_config->GetHotKeyVK())) {
+        MessageBoxW(m_hwnd, I18n::Get().T("err.hotkey"),
+                    L"FuWinLauncher", MB_OK | MB_ICONWARNING);
+    }
 
     // Reapply theme
     ApplyTheme(m_config->GetTheme());

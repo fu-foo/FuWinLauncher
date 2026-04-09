@@ -191,11 +191,29 @@ static bool IsAbsolutePath(const std::wstring& p) {
     return false;
 }
 
+// Reject names that could escape a parent directory or reference other locations
+static bool IsSafeName(const std::wstring& name) {
+    if (name.empty()) return false;
+    if (name.find(L"..") != std::wstring::npos) return false;
+    if (name.find(L'/') != std::wstring::npos) return false;
+    if (name.find(L'\\') != std::wstring::npos) return false;
+    if (name.find(L':') != std::wstring::npos) return false;
+    return true;
+}
+
+// For relative paths inside a skin folder, reject anything that tries to escape
+static bool IsSafeRelativePath(const std::wstring& p) {
+    if (p.empty()) return false;
+    if (IsAbsolutePath(p)) return false;
+    if (p.find(L"..") != std::wstring::npos) return false;
+    return true;
+}
+
 bool Config::LoadSkin(const std::wstring& skinName, const std::wstring& exeDir) {
     // Always start from the user's base theme so skin switches don't accumulate
     m_theme = m_baseTheme;
 
-    if (skinName.empty()) return false;
+    if (!IsSafeName(skinName)) return false;
 
     std::wstring skinDir = exeDir + L"skins\\" + skinName + L"\\";
     std::wstring themePath = skinDir + L"theme.ini";
@@ -239,7 +257,8 @@ bool Config::LoadSkin(const std::wstring& skinName, const std::wstring& exeDir) 
             m_theme.searchTextColor = ParseColor(value, m_theme.searchTextColor);
         } else if (key == "BgImage") {
             std::wstring p = Utf8ToWide(value);
-            m_theme.bgImage = IsAbsolutePath(p) ? p : (skinDir + p);
+            // Skin assets must live inside the skin folder (no parent escape)
+            if (IsSafeRelativePath(p)) m_theme.bgImage = skinDir + p;
         } else if (key == "BgImageAlpha") {
             m_theme.bgImageAlpha = static_cast<BYTE>(std::clamp(SafeStoi(value), 0, 255));
         } else if (key == "BgImageMode") {
@@ -248,7 +267,7 @@ bool Config::LoadSkin(const std::wstring& skinName, const std::wstring& exeDir) 
             else if (value == "tile") m_theme.bgImageMode = 2;
         } else if (key == "CustomIcon") {
             std::wstring p = Utf8ToWide(value);
-            m_theme.customIcon = IsAbsolutePath(p) ? p : (skinDir + p);
+            if (IsSafeRelativePath(p)) m_theme.customIcon = skinDir + p;
         }
     }
     return true;

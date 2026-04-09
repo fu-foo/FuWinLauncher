@@ -25,8 +25,12 @@ static std::wstring ColorToWStr(COLORREF c) {
 }
 
 static COLORREF WStrToColor(const wchar_t* s, COLORREF def) {
+    // Color strings are ASCII (#RRGGBB). Drop anything outside printable ASCII
+    // so a stray non-ASCII character cannot pollute the parser.
     std::string str;
-    for (const wchar_t* p = s; *p; ++p) str += static_cast<char>(*p);
+    for (const wchar_t* p = s; *p; ++p) {
+        if (*p >= 0x20 && *p < 0x7F) str += static_cast<char>(*p);
+    }
     return Config::ParseColor(str, def);
 }
 
