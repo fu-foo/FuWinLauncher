@@ -1121,6 +1121,13 @@ void MainWindow::AddNewApp() {
 void MainWindow::ReloadFromConfig() {
     if (!m_config) return;
 
+    // Reapply skin if configured (overrides theme)
+    if (!m_config->GetSkin().empty()) {
+        std::wstring iniPath = m_config->GetIniPath();
+        std::wstring exeDir = iniPath.substr(0, iniPath.find_last_of(L"\\/") + 1);
+        m_config->LoadSkin(m_config->GetSkin(), exeDir);
+    }
+
     // Reapply opacity
     SetLayeredWindowAttributes(m_hwnd, 0, m_config->GetOpacity(), LWA_ALPHA);
 

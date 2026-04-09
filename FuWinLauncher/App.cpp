@@ -44,6 +44,12 @@ bool App::Init(HINSTANCE hInstance) {
         I18n::Get().SetLangFromString(m_config.GetLanguage());
     }
 
+    // Apply skin overrides if configured
+    if (!m_config.GetSkin().empty()) {
+        std::wstring exeDir = configPath.substr(0, configPath.find_last_of(L"\\/") + 1);
+        m_config.LoadSkin(m_config.GetSkin(), exeDir);
+    }
+
     if (!m_mainWindow.Create(hInstance, m_config)) {
         MessageBoxW(nullptr, I18n::Get().T("err.window"),
                     L"FuWinLauncher", MB_OK | MB_ICONERROR);

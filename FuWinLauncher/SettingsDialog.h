@@ -15,6 +15,7 @@ private:
     void OnOpacityChanged();
     void OnBgAlphaChanged();
     void OnOK(HWND hwnd);
+    void UpdateThemeControlsEnabled(HWND hwnd);
     void PickColor(HWND hwnd, HWND editCtrl);
     void BrowseFile(HWND hwnd, HWND editCtrl, const wchar_t* filter);
 
@@ -29,6 +30,7 @@ private:
     HWND m_maxHeightEdit = nullptr;
     HWND m_langCombo = nullptr;
     HWND m_hotkeyCombo = nullptr;
+    HWND m_skinCombo = nullptr;
     HWND m_topmostCheck = nullptr;
     HWND m_showSettingsCheck = nullptr;
     HWND m_showHelpCheck = nullptr;

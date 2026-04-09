@@ -35,6 +35,7 @@
 #define IDC_SET_BGALPHA           3017
 #define IDC_SET_BGALPHA_LABEL     3018
 #define IDC_SET_CUSTOMICON_BTN    3019
+#define IDC_SET_SKIN              3022
 #define IDC_SET_OK            IDOK
 #define IDC_SET_CANCEL        IDCANCEL
 

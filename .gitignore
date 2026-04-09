@@ -26,6 +26,9 @@ Release/
 # User config (auto-generated on first launch)
 config.ini
 
+# User skins (not bundled with the app)
+skins/
+
 # Editor/tool config
 .vs/
 .vscode/

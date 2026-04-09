@@ -99,6 +99,8 @@ void I18n::Init() {
     m_strings["settings.customicon"]     = { L"\x30A2\x30A4\x30B3\x30F3:", L"Icon:" };
     m_strings["settings.language"]       = { L"\x8A00\x8A9E:", L"Language:" };
     m_strings["settings.hotkey"]         = { L"\x30DB\x30C3\x30C8\x30AD\x30FC:", L"Hotkey:" };
+    m_strings["settings.skin"]           = { L"\x30B9\x30AD\x30F3:", L"Skin:" };
+    m_strings["settings.skin_none"]      = { L"(\x306A\x3057)", L"(none)" };
     m_strings["settings.browse"]         = { L"...", L"..." };
 
     m_strings["settings.ok"]        = { L"OK", L"OK" };

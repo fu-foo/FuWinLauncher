@@ -91,6 +91,8 @@ bool Config::Load(const std::wstring& iniPath) {
                 m_showHelpButton = (value == "1" || value == "true" || value == "on" || value == "ON");
             } else if (key == "Language") {
                 m_language = Utf8ToWide(value);
+            } else if (key == "Skin") {
+                m_skin = Utf8ToWide(value);
             }
         } else if (currentSection == "Theme") {
             if (key == "TitleText") {
@@ -180,6 +182,72 @@ bool Config::AppendApp(const std::wstring& name, const std::wstring& path) {
     return true;
 }
 
+static bool IsAbsolutePath(const std::wstring& p) {
+    if (p.size() >= 2 && p[1] == L':') return true;
+    if (!p.empty() && (p[0] == L'\\' || p[0] == L'/')) return true;
+    return false;
+}
+
+bool Config::LoadSkin(const std::wstring& skinName, const std::wstring& exeDir) {
+    if (skinName.empty()) return false;
+
+    std::wstring skinDir = exeDir + L"skins\\" + skinName + L"\\";
+    std::wstring themePath = skinDir + L"theme.ini";
+
+    std::ifstream file(themePath);
+    if (!file.is_open()) return false;
+
+    std::string currentSection;
+    std::string line;
+    while (std::getline(file, line)) {
+        std::string trimmed = Trim(line);
+        if (trimmed.empty() || trimmed[0] == ';' || trimmed[0] == '#') continue;
+
+        if (trimmed.front() == '[' && trimmed.back() == ']') {
+            currentSection = trimmed.substr(1, trimmed.size() - 2);
+            continue;
+        }
+
+        size_t eq = trimmed.find('=');
+        if (eq == std::string::npos) continue;
+
+        std::string key = Trim(trimmed.substr(0, eq));
+        std::string value = Trim(trimmed.substr(eq + 1));
+        if (currentSection != "Theme") continue;
+
+        if (key == "TitleText") {
+            m_theme.titleText = Utf8ToWide(value);
+        } else if (key == "TitleBarColor") {
+            m_theme.titleBarColor = ParseColor(value, m_theme.titleBarColor);
+        } else if (key == "TitleTextColor") {
+            m_theme.titleTextColor = ParseColor(value, m_theme.titleTextColor);
+        } else if (key == "BgColor") {
+            m_theme.bgColor = ParseColor(value, m_theme.bgColor);
+        } else if (key == "TextColor") {
+            m_theme.textColor = ParseColor(value, m_theme.textColor);
+        } else if (key == "SelectColor") {
+            m_theme.selectColor = ParseColor(value, m_theme.selectColor);
+        } else if (key == "SearchBgColor") {
+            m_theme.searchBgColor = ParseColor(value, m_theme.searchBgColor);
+        } else if (key == "SearchTextColor") {
+            m_theme.searchTextColor = ParseColor(value, m_theme.searchTextColor);
+        } else if (key == "BgImage") {
+            std::wstring p = Utf8ToWide(value);
+            m_theme.bgImage = IsAbsolutePath(p) ? p : (skinDir + p);
+        } else if (key == "BgImageAlpha") {
+            m_theme.bgImageAlpha = static_cast<BYTE>(std::clamp(SafeStoi(value), 0, 255));
+        } else if (key == "BgImageMode") {
+            if (value == "center") m_theme.bgImageMode = 0;
+            else if (value == "stretch") m_theme.bgImageMode = 1;
+            else if (value == "tile") m_theme.bgImageMode = 2;
+        } else if (key == "CustomIcon") {
+            std::wstring p = Utf8ToWide(value);
+            m_theme.customIcon = IsAbsolutePath(p) ? p : (skinDir + p);
+        }
+    }
+    return true;
+}
+
 void Config::SaveApps() {
     // Read the ini file and rewrite the [Apps] section with the current m_apps
     std::ifstream inFile(m_iniPath);
@@ -248,6 +316,9 @@ void Config::Save() {
     file << "ShowHelpButton=" << (m_showHelpButton ? "on" : "off") << "\n";
     if (!m_language.empty()) {
         file << "Language=" << WideToUtf8(m_language) << "\n";
+    }
+    if (!m_skin.empty()) {
+        file << "Skin=" << WideToUtf8(m_skin) << "\n";
     }
     file << "\n";
 

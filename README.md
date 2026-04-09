@@ -140,6 +140,42 @@ CustomIcon=
 | `BgImageMode` | `center` / `stretch` / `tile` | `center` |
 | `CustomIcon` | Custom .ico file path | *(empty)* |
 
+## Skins
+
+You can override the theme with file-based skins. Place a `skins/` folder next to the EXE and create a subfolder for each skin:
+
+```
+FuWinLauncher.exe
+config.ini
+skins/
+├── dark/
+│   ├── theme.ini
+│   └── background.png
+└── retro/
+    ├── theme.ini
+    └── background.png
+```
+
+Each skin folder must contain `theme.ini` with a `[Theme]` section. The format is the same as `[Theme]` in `config.ini`. Image paths (`BgImage`, `CustomIcon`) can be relative to the skin folder.
+
+Example `skins/dark/theme.ini`:
+
+```ini
+[Theme]
+TitleText=My Launcher
+TitleBarColor=#0D1B2A
+BgColor=#1B263B
+TextColor=#E0E1DD
+SelectColor=#415A77
+BgImage=background.png
+BgImageAlpha=60
+BgImageMode=center
+```
+
+Select a skin from **Settings → Theme → Skin**. Choose `(none)` to fall back to the `[Theme]` section in `config.ini`.
+
+> Skins are an optional feature. No sample skins are bundled — create your own.
+
 ## Build
 
 ### Requirements
@@ -240,6 +276,28 @@ EXE にデジタル署名がないため、初回実行時に Windows SmartScree
 | 文字入力 | アプリ絞り込み |
 
 設定項目の詳細は上記英語セクションの Settings Reference / Theme Reference を参照してください。
+
+## スキン
+
+EXE と同じ場所に `skins/` フォルダを作り、サブフォルダごとにスキンを配置するとテーマを差し替えられます:
+
+```
+FuWinLauncher.exe
+config.ini
+skins/
+├── dark/
+│   ├── theme.ini
+│   └── background.png
+└── retro/
+    ├── theme.ini
+    └── background.png
+```
+
+各スキンフォルダには `theme.ini` を置きます。`[Theme]` セクションの書式は `config.ini` と同じです。`BgImage` や `CustomIcon` のパスはスキンフォルダからの相対パスでも書けます。
+
+設定画面の **Settings → Theme → Skin** から選択。`(なし)` を選べば `config.ini` の `[Theme]` セクションが使われます。
+
+> スキンはおまけ機能です。サンプルスキンは同梱されていません — 自分で作成してください。
 
 ## サポート
 

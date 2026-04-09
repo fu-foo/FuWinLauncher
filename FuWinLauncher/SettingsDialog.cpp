@@ -9,7 +9,7 @@
 static const wchar_t* SETTINGS_CLASS = L"FuWinLauncherSettingsClass";
 
 static constexpr int DLG_W = 420;
-static constexpr int DLG_H = 740;
+static constexpr int DLG_H = 770;
 static constexpr int MARGIN = 12;
 static constexpr int CTRL_H = 24;
 static constexpr int BTN_W = 60;
@@ -126,6 +126,11 @@ LRESULT SettingsDialog::HandleMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
         case IDC_SET_CUSTOMICON_BTN:
             BrowseFile(hwnd, m_customIconEdit,
                 L"Icons (*.ico)\0*.ico\0All Files (*.*)\0*.*\0");
+            break;
+        case IDC_SET_SKIN:
+            if (HIWORD(wParam) == CBN_SELCHANGE) {
+                UpdateThemeControlsEnabled(hwnd);
+            }
             break;
         }
         return 0;
@@ -262,6 +267,41 @@ void SettingsDialog::CreateControls(HWND hwnd) {
     makeLabel(I18n::Get().T("settings.theme"), MARGIN, y, 200, CTRL_H);
     y += CTRL_H + 2;
 
+    // Skin selector
+    makeLabel(I18n::Get().T("settings.skin"), MARGIN, y + 2, LABEL_W, CTRL_H);
+    m_skinCombo = CreateWindowExW(0, L"COMBOBOX", nullptr,
+        WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_TABSTOP,
+        ctrlX, y, 200, CTRL_H * 8, hwnd,
+        reinterpret_cast<HMENU>(IDC_SET_SKIN), m_hInstance, nullptr);
+    SendMessageW(m_skinCombo, WM_SETFONT, reinterpret_cast<WPARAM>(m_font), TRUE);
+    SendMessageW(m_skinCombo, CB_ADDSTRING, 0,
+                 reinterpret_cast<LPARAM>(I18n::Get().T("settings.skin_none")));
+    {
+        // Enumerate skins/<name>/theme.ini under exe dir
+        std::wstring iniPath = m_config->GetIniPath();
+        std::wstring exeDir = iniPath.substr(0, iniPath.find_last_of(L"\\/") + 1);
+        std::wstring searchPattern = exeDir + L"skins\\*";
+        WIN32_FIND_DATAW fd = {};
+        HANDLE hFind = FindFirstFileW(searchPattern.c_str(), &fd);
+        int sel = 0;
+        int idx = 0;
+        if (hFind != INVALID_HANDLE_VALUE) {
+            do {
+                if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) continue;
+                if (wcscmp(fd.cFileName, L".") == 0 || wcscmp(fd.cFileName, L"..") == 0) continue;
+                std::wstring themeFile = exeDir + L"skins\\" + fd.cFileName + L"\\theme.ini";
+                if (GetFileAttributesW(themeFile.c_str()) == INVALID_FILE_ATTRIBUTES) continue;
+                idx++;
+                SendMessageW(m_skinCombo, CB_ADDSTRING, 0,
+                             reinterpret_cast<LPARAM>(fd.cFileName));
+                if (m_config->GetSkin() == fd.cFileName) sel = idx;
+            } while (FindNextFileW(hFind, &fd));
+            FindClose(hFind);
+        }
+        SendMessageW(m_skinCombo, CB_SETCURSEL, sel, 0);
+    }
+    y += CTRL_H + ROW_GAP;
+
     int colorEditW = editW - SMALL_BTN - 4;
 
     // Color row helper
@@ -336,6 +376,37 @@ void SettingsDialog::CreateControls(HWND hwnd) {
     int cancelX = DLG_W / 2 + 10;
     makeButton(I18n::Get().T("settings.ok"),     IDOK,     okX,     y, BTN_W + 20, BTN_H + 4);
     makeButton(I18n::Get().T("settings.cancel"), IDCANCEL, cancelX, y, BTN_W + 20, BTN_H + 4);
+
+    // Reflect initial enabled state of theme controls based on skin selection
+    UpdateThemeControlsEnabled(hwnd);
+}
+
+void SettingsDialog::UpdateThemeControlsEnabled(HWND hwnd) {
+    int skinSel = static_cast<int>(SendMessageW(m_skinCombo, CB_GETCURSEL, 0, 0));
+    BOOL en = (skinSel <= 0) ? TRUE : FALSE;  // (none) -> enabled
+
+    EnableWindow(m_titleTextEdit, en);
+    EnableWindow(m_titleBarColorEdit, en);
+    EnableWindow(m_titleTextColorEdit, en);
+    EnableWindow(m_bgColorEdit, en);
+    EnableWindow(m_textColorEdit, en);
+    EnableWindow(m_selectColorEdit, en);
+    EnableWindow(m_searchBgColorEdit, en);
+    EnableWindow(m_searchTextColorEdit, en);
+    EnableWindow(m_bgImageEdit, en);
+    EnableWindow(m_bgModeCombo, en);
+    EnableWindow(m_bgAlphaSlider, en);
+    EnableWindow(m_customIconEdit, en);
+
+    EnableWindow(GetDlgItem(hwnd, IDC_SET_TITLEBARCOLOR_BTN), en);
+    EnableWindow(GetDlgItem(hwnd, IDC_SET_TITLETEXTCOLOR_BTN), en);
+    EnableWindow(GetDlgItem(hwnd, IDC_SET_BGCOLOR_BTN), en);
+    EnableWindow(GetDlgItem(hwnd, IDC_SET_TEXTCOLOR_BTN), en);
+    EnableWindow(GetDlgItem(hwnd, IDC_SET_SELECTCOLOR_BTN), en);
+    EnableWindow(GetDlgItem(hwnd, IDC_SET_SEARCHBGCOLOR_BTN), en);
+    EnableWindow(GetDlgItem(hwnd, IDC_SET_SEARCHTEXTCOLOR_BTN), en);
+    EnableWindow(GetDlgItem(hwnd, IDC_SET_BGIMAGE_BTN), en);
+    EnableWindow(GetDlgItem(hwnd, IDC_SET_CUSTOMICON_BTN), en);
 }
 
 void SettingsDialog::OnOpacityChanged() {
@@ -410,6 +481,16 @@ void SettingsDialog::OnOK(HWND hwnd) {
     m_config->SetShowSettingsButton(SendMessageW(m_showSettingsCheck, BM_GETCHECK, 0, 0) == BST_CHECKED);
     m_config->SetShowHelpButton(SendMessageW(m_showHelpCheck, BM_GETCHECK, 0, 0) == BST_CHECKED);
     m_config->SetHideOnLaunch(SendMessageW(m_hideOnLaunchCheck, BM_GETCHECK, 0, 0) == BST_CHECKED);
+
+    // Skin (read selection by index, then re-fetch matching item text)
+    int skinSel = static_cast<int>(SendMessageW(m_skinCombo, CB_GETCURSEL, 0, 0));
+    if (skinSel <= 0) {
+        m_config->SetSkin(L"");
+    } else {
+        wchar_t skinBuf[MAX_PATH] = {};
+        SendMessageW(m_skinCombo, CB_GETLBTEXT, skinSel, reinterpret_cast<LPARAM>(skinBuf));
+        m_config->SetSkin(skinBuf);
+    }
 
     // Theme
     auto& theme = m_config->GetTheme();

@@ -32,6 +32,7 @@ public:
     bool AppendApp(const std::wstring& name, const std::wstring& path);
     void SaveApps();
     void Save();
+    bool LoadSkin(const std::wstring& skinName, const std::wstring& exeDir);
     const std::wstring& GetIniPath() const { return m_iniPath; }
 
     const std::vector<AppEntry>& GetApps() const { return m_apps; }
@@ -49,6 +50,8 @@ public:
     void SetShowHelpButton(bool v) { m_showHelpButton = v; }
     const std::wstring& GetLanguage() const { return m_language; }
     void SetLanguage(const std::wstring& v) { m_language = v; }
+    const std::wstring& GetSkin() const { return m_skin; }
+    void SetSkin(const std::wstring& v) { m_skin = v; }
     const ThemeConfig& GetTheme() const { return m_theme; }
     ThemeConfig& GetTheme() { return m_theme; }
 
@@ -75,5 +78,6 @@ private:
     bool m_showSettingsButton = true;
     bool m_showHelpButton = true;
     std::wstring m_language;
+    std::wstring m_skin;
     ThemeConfig m_theme;
 };
