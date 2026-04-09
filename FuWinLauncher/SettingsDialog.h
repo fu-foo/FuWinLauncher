@@ -28,6 +28,7 @@ private:
     HWND m_opacityLabel = nullptr;
     HWND m_maxHeightEdit = nullptr;
     HWND m_langCombo = nullptr;
+    HWND m_hotkeyCombo = nullptr;
     HWND m_topmostCheck = nullptr;
     HWND m_showSettingsCheck = nullptr;
     HWND m_showHelpCheck = nullptr;

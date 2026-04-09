@@ -9,7 +9,7 @@
 static const wchar_t* SETTINGS_CLASS = L"FuWinLauncherSettingsClass";
 
 static constexpr int DLG_W = 420;
-static constexpr int DLG_H = 710;
+static constexpr int DLG_H = 740;
 static constexpr int MARGIN = 12;
 static constexpr int CTRL_H = 24;
 static constexpr int BTN_W = 60;
@@ -199,6 +199,21 @@ void SettingsDialog::CreateControls(HWND hwnd) {
     }
     y += CTRL_H + ROW_GAP;
 
+    // Hotkey
+    makeLabel(I18n::Get().T("settings.hotkey"), MARGIN, y + 2, LABEL_W, CTRL_H);
+    m_hotkeyCombo = CreateWindowExW(0, L"COMBOBOX", nullptr,
+        WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_TABSTOP,
+        ctrlX, y, 150, CTRL_H * 4, hwnd, nullptr, m_hInstance, nullptr);
+    SendMessageW(m_hotkeyCombo, WM_SETFONT, reinterpret_cast<WPARAM>(m_font), TRUE);
+    SendMessageW(m_hotkeyCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Alt+Space"));
+    SendMessageW(m_hotkeyCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(L"Ctrl+Space"));
+    {
+        UINT mod = m_config->GetHotKeyModifiers();
+        int sel = (mod & MOD_CONTROL) ? 1 : 0;
+        SendMessageW(m_hotkeyCombo, CB_SETCURSEL, sel, 0);
+    }
+    y += CTRL_H + ROW_GAP;
+
     // Opacity
     makeLabel(I18n::Get().T("settings.opacity"), MARGIN, y + 2, LABEL_W, CTRL_H);
     m_opacitySlider = CreateWindowExW(0, TRACKBAR_CLASSW, nullptr,
@@ -376,6 +391,11 @@ void SettingsDialog::OnOK(HWND hwnd) {
     std::wstring langStr = (langSel == 0) ? L"ja" : L"en";
     m_config->SetLanguage(langStr);
     I18n::Get().SetLangFromString(langStr);
+
+    // Hotkey
+    int hkSel = static_cast<int>(SendMessageW(m_hotkeyCombo, CB_GETCURSEL, 0, 0));
+    UINT mod = (hkSel == 1) ? MOD_CONTROL : MOD_ALT;
+    m_config->SetHotKey(mod, VK_SPACE);
 
     // Opacity
     int opacity = static_cast<int>(SendMessageW(m_opacitySlider, TBM_GETPOS, 0, 0));

@@ -60,9 +60,11 @@ That's it — it will start automatically on next login.
 
 ## Keyboard Shortcuts
 
+> The show/hide hotkey can be switched between `Alt+Space` (default) and `Ctrl+Space` from the Settings dialog. `Ctrl+Space` is useful in RDP sessions where `Alt+Space` may be intercepted by Windows.
+
 | Key | Action |
 |-----|--------|
-| `Alt+Space` | Show / Hide |
+| `Alt+Space` / `Ctrl+Space` | Show / Hide |
 | `↑` / `↓` | Move selection |
 | `Enter` | Launch selected app |
 | `Esc` | Hide window |
@@ -227,9 +229,11 @@ EXE にデジタル署名がないため、初回実行時に Windows SmartScree
 
 ## キーボード操作
 
+> 表示/非表示のホットキーは設定画面で `Alt+Space`（既定）と `Ctrl+Space` を切り替えられます。RDP セッションなど `Alt+Space` が Windows に取られてしまう環境では `Ctrl+Space` が便利です。
+
 | キー | 動作 |
 |------|------|
-| `Alt+Space` | 表示 / 非表示 |
+| `Alt+Space` / `Ctrl+Space` | 表示 / 非表示 |
 | `↑` / `↓` | 選択移動 |
 | `Enter` | アプリ起動 |
 | `Esc` | ウィンドウを隠す |
