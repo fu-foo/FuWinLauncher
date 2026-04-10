@@ -762,8 +762,12 @@ void MainWindow::OnDropFiles(HDROP hDrop) {
             for (auto& c : ext) c = towlower(c);
         }
 
-        // Only accept .exe and .lnk files
-        if (ext != L".exe" && ext != L".lnk") continue;
+        // Only accept launchable file types
+        if (ext != L".exe" && ext != L".lnk" &&
+            ext != L".bat" && ext != L".cmd" &&
+            ext != L".ps1" && ext != L".com" &&
+            ext != L".vbs" && ext != L".wsf" &&
+            ext != L".msi") continue;
 
         // Use filename (without extension) as app name
         size_t lastSlash = path.find_last_of(L"\\/");

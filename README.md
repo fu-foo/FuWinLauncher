@@ -14,7 +14,7 @@ A lightweight, customizable application launcher for Windows.
 - **System Tray** - Minimizes to tray, right-click for settings/help
 - **i18n** - Japanese / English support (auto-detects OS language)
 - **Portable** - Single EXE + config.ini, no installer needed
-- **Supports** - `.exe`, `.lnk` shortcuts, URLs
+- **Supports** - `.exe`, `.lnk`, `.bat`, `.cmd`, `.ps1`, `.com`, `.vbs`, `.wsf`, `.msi`, URLs
 
 ## Screenshot
 
@@ -72,7 +72,7 @@ That's it — it will start automatically on next login.
 
 ## App Management
 
-- **Drag & drop** `.exe` / `.lnk` files onto the window to add
+- **Drag & drop** `.exe` / `.lnk` / `.bat` / `.cmd` / `.ps1` / `.com` / `.vbs` / `.wsf` / `.msi` files onto the window to add
 - **Right-click** an app → Edit / Delete
 - **Right-click** empty area → Add new
 - **Drag** items in the list to reorder
@@ -229,7 +229,7 @@ Win32 API と C++ 標準ライブラリのみで構築しています。.NET や
 - タスクトレイ常駐、右クリックで設定・ヘルプ
 - 日本語 / 英語対応（OS言語自動判定）
 - EXE単体 + config.ini のポータブル動作
-- `.exe`、`.lnk` ショートカット、URL に対応
+- `.exe`、`.lnk`、`.bat`、`.cmd`、`.ps1`、`.com`、`.vbs`、`.wsf`、`.msi`、URL に対応
 
 ## 使い方
 

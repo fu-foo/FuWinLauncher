@@ -133,7 +133,7 @@ void I18n::Init() {
         L"  \x30FB \x53F3\x30AF\x30EA\x30C3\x30AF \x2192 \x7DE8\x96C6\x30FB\x524A\x9664\x30FB\x65B0\x898F\x8FFD\x52A0\r\n"
         L"  \x30FB \x30C9\x30E9\x30C3\x30B0\x0026\x30C9\x30ED\x30C3\x30D7\x3067\x30A2\x30D7\x30EA\x8FFD\x52A0\r\n"
         L"  \x30FB \x30EA\x30B9\x30C8\x5185\x30C9\x30E9\x30C3\x30B0\x3067\x4E26\x3079\x66FF\x3048\r\n"
-        L"  \x30FB .exe / .lnk / URL \x306B\x5BFE\x5FDC\r\n"
+        L"  \x30FB .exe / .lnk / .bat / .cmd / .ps1 / .com / .vbs / .wsf / .msi / URL \x306B\x5BFE\x5FDC\r\n"
         L"\r\n"
         L"\x25A0 \x305D\x306E\x4ED6\r\n"
         L"  \x30FB \x6587\x5B57\x5165\x529B\x3067\x30A2\x30D7\x30EA\x3092\x7D5E\x308A\x8FBC\x307F\r\n"
@@ -155,7 +155,7 @@ void I18n::Init() {
         L"  \x2022 Right-click \x2192 Edit / Delete / Add new\r\n"
         L"  \x2022 Drag & drop files to add apps\r\n"
         L"  \x2022 Drag items in list to reorder\r\n"
-        L"  \x2022 Supports .exe / .lnk / URLs\r\n"
+        L"  \x2022 Supports .exe / .lnk / .bat / .cmd / .ps1 / .com / .vbs / .wsf / .msi / URLs\r\n"
         L"\r\n"
         L"\x25A0 Other\r\n"
         L"  \x2022 Type to filter apps\r\n"
@@ -167,7 +167,10 @@ void I18n::Init() {
     };
 
     // File dialog
-    m_strings["filedialog.exe"]  = { L"\x5B9F\x884C\x30D5\x30A1\x30A4\x30EB (*.exe)", L"Executables (*.exe)" };  // Executables
-    m_strings["filedialog.lnk"]  = { L"\x30B7\x30E7\x30FC\x30C8\x30AB\x30C3\x30C8 (*.lnk)", L"Shortcuts (*.lnk)" };  // Shortcuts
-    m_strings["filedialog.all"]  = { L"\x3059\x3079\x3066\x306E\x30D5\x30A1\x30A4\x30EB (*.*)", L"All Files (*.*)" };  // All files
+    m_strings["filedialog.exe"]  = { L"\x5B9F\x884C\x30D5\x30A1\x30A4\x30EB (*.exe;*.com)", L"Executables (*.exe;*.com)" };
+    m_strings["filedialog.lnk"]  = { L"\x30B7\x30E7\x30FC\x30C8\x30AB\x30C3\x30C8 (*.lnk)", L"Shortcuts (*.lnk)" };
+    m_strings["filedialog.bat"]  = { L"\x30D0\x30C3\x30C1\x30D5\x30A1\x30A4\x30EB (*.bat;*.cmd)", L"Batch Files (*.bat;*.cmd)" };
+    m_strings["filedialog.script"] = { L"\x30B9\x30AF\x30EA\x30D7\x30C8 (*.ps1;*.vbs;*.wsf)", L"Scripts (*.ps1;*.vbs;*.wsf)" };
+    m_strings["filedialog.msi"]  = { L"\x30A4\x30F3\x30B9\x30C8\x30FC\x30E9 (*.msi)", L"Installers (*.msi)" };
+    m_strings["filedialog.all"]  = { L"\x3059\x3079\x3066\x306E\x30D5\x30A1\x30A4\x30EB (*.*)", L"All Files (*.*)" };
 }
