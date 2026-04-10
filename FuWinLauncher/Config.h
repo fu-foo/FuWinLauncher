@@ -78,7 +78,7 @@ private:
     UINT m_hotKeyMod = MOD_ALT;
     UINT m_hotKeyVK = VK_SPACE;
     int m_maxHeight = 600;
-    bool m_autoResize = false;
+    bool m_autoResize = true;
     bool m_topmost = true;
     bool m_hideOnLaunch = false;
     bool m_showSettingsButton = true;

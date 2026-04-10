@@ -90,7 +90,7 @@ Chrome=C:\Program Files\Google\Chrome\Application\chrome.exe
 [Settings]
 Opacity=200
 MaxHeight=600
-AutoResize=off
+AutoResize=on
 Topmost=on
 HideOnLaunch=off
 ShowSettingsButton=on
@@ -118,7 +118,7 @@ CustomIcon=
 |-----|-------------|---------|
 | `Opacity` | Window opacity (50-255) | `200` |
 | `MaxHeight` | Max window height in px | `600` |
-| `AutoResize` | Auto-fit height to app count (`on`/`off`) | `off` |
+| `AutoResize` | Auto-fit height to app count (`on`/`off`) | `on` |
 | `Topmost` | Always on top (`on`/`off`) | `on` |
 | `HideOnLaunch` | Hide after launching app | `off` |
 | `ShowSettingsButton` | Show ⚙ button | `on` |
