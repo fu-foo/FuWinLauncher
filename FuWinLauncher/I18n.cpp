@@ -75,6 +75,8 @@ void I18n::Init() {
     m_strings["settings.hotkey"]    = { L"\x30DB\x30C3\x30C8\x30AD\x30FC:", L"HotKey:" }; // HotKey
     m_strings["settings.opacity"]   = { L"\x900F\x660E\x5EA6:",  L"Opacity:" };  // Opacity
     m_strings["settings.maxheight"] = { L"\x6700\x5927\x9AD8\x3055:", L"MaxHeight:" }; // Max height
+    m_strings["settings.autoresize"] = { L"\x30A6\x30A3\x30F3\x30C9\x30A6\x9AD8\x3055\x3092\x81EA\x52D5\x8ABF\x6574",
+                                         L"Auto-resize window height" };
     m_strings["settings.topmost"]   = { L"\x5E38\x306B\x6700\x524D\x9762\x306B\x8868\x793A", L"Always on Top" };
     m_strings["settings.showsettingsbtn"] = {
         L"\x8A2D\x5B9A\x30DC\x30BF\x30F3\x3092\x8868\x793A\xFF08\u203B\x975E\x8868\x793A\x5F8C\x306F\x30C8\x30EC\x30A4\x2192\x53F3\x30AF\x30EA\x30C3\x30AF\x3067\x8868\x793A\x53EF\xFF09",

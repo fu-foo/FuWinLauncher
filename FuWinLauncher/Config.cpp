@@ -81,6 +81,8 @@ bool Config::Load(const std::wstring& iniPath) {
                 ParseHotKey(Utf8ToWide(value));
             } else if (key == "MaxHeight") {
                 m_maxHeight = std::clamp(SafeStoi(value), 200, 2000);
+            } else if (key == "AutoResize") {
+                m_autoResize = (value == "1" || value == "true" || value == "on" || value == "ON");
             } else if (key == "Topmost") {
                 m_topmost = (value == "1" || value == "true" || value == "on" || value == "ON");
             } else if (key == "HideOnLaunch") {
@@ -335,6 +337,7 @@ void Config::Save() {
     file << "HotKey=" << WideToUtf8(HotKeyToString(m_hotKeyMod, m_hotKeyVK)) << "\n";
     file << "Opacity=" << static_cast<int>(m_opacity) << "\n";
     file << "MaxHeight=" << m_maxHeight << "\n";
+    file << "AutoResize=" << (m_autoResize ? "on" : "off") << "\n";
     file << "Topmost=" << (m_topmost ? "on" : "off") << "\n";
     file << "HideOnLaunch=" << (m_hideOnLaunch ? "on" : "off") << "\n";
     file << "ShowSettingsButton=" << (m_showSettingsButton ? "on" : "off") << "\n";

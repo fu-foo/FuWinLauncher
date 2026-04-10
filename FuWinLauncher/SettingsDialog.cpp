@@ -9,7 +9,7 @@
 static const wchar_t* SETTINGS_CLASS = L"FuWinLauncherSettingsClass";
 
 static constexpr int DLG_W = 420;
-static constexpr int DLG_H = 770;
+static constexpr int DLG_H = 796;
 static constexpr int MARGIN = 12;
 static constexpr int CTRL_H = 24;
 static constexpr int BTN_W = 60;
@@ -131,6 +131,9 @@ LRESULT SettingsDialog::HandleMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
             BrowseFile(hwnd, m_customIconEdit,
                 L"Icons (*.ico)\0*.ico\0All Files (*.*)\0*.*\0");
             break;
+        case IDC_SET_AUTORESIZE:
+            UpdateMaxHeightEnabled();
+            break;
         case IDC_SET_SKIN:
             if (HIWORD(wParam) == CBN_SELCHANGE) {
                 UpdateThemeControlsEnabled(hwnd);
@@ -236,15 +239,27 @@ void SettingsDialog::CreateControls(HWND hwnd) {
     y += CTRL_H + ROW_GAP;
 
     // MaxHeight
-    makeLabel(I18n::Get().T("settings.maxheight"), MARGIN, y + 2, LABEL_W, CTRL_H);
+    m_maxHeightLabel = makeLabel(I18n::Get().T("settings.maxheight"), MARGIN, y + 2, LABEL_W, CTRL_H);
     m_maxHeightEdit = CreateWindowExW(WS_EX_CLIENTEDGE, L"EDIT", nullptr,
         WS_CHILD | WS_VISIBLE | ES_NUMBER | WS_TABSTOP,
         ctrlX, y, 80, CTRL_H, hwnd,
         reinterpret_cast<HMENU>(IDC_SET_MAXHEIGHT), m_hInstance, nullptr);
     SendMessageW(m_maxHeightEdit, WM_SETFONT, reinterpret_cast<WPARAM>(m_font), TRUE);
     { wchar_t buf[16]; wsprintfW(buf, L"%d", m_config->GetMaxHeight()); SetWindowTextW(m_maxHeightEdit, buf); }
-    makeLabel(L"px", ctrlX + 85, y + 2, 30, CTRL_H);
+    m_maxHeightPxLabel = makeLabel(L"px", ctrlX + 85, y + 2, 30, CTRL_H);
     y += CTRL_H + ROW_GAP;
+
+    // AutoResize checkbox (disables MaxHeight when checked)
+    m_autoResizeCheck = CreateWindowExW(0, L"BUTTON", I18n::Get().T("settings.autoresize"),
+        WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX | WS_TABSTOP,
+        MARGIN, y, DLG_W - MARGIN * 2, CTRL_H, hwnd,
+        reinterpret_cast<HMENU>(static_cast<INT_PTR>(IDC_SET_AUTORESIZE)),
+        m_hInstance, nullptr);
+    SendMessageW(m_autoResizeCheck, WM_SETFONT, reinterpret_cast<WPARAM>(m_font), TRUE);
+    SendMessageW(m_autoResizeCheck, BM_SETCHECK,
+        m_config->GetAutoResize() ? BST_CHECKED : BST_UNCHECKED, 0);
+    UpdateMaxHeightEnabled();
+    y += CTRL_H + 2;
 
     // Checkboxes
     auto makeCheck = [&](const wchar_t* text, bool checked, int& yy) {
@@ -413,6 +428,13 @@ void SettingsDialog::UpdateThemeControlsEnabled(HWND hwnd) {
     EnableWindow(GetDlgItem(hwnd, IDC_SET_CUSTOMICON_BTN), en);
 }
 
+void SettingsDialog::UpdateMaxHeightEnabled() {
+    BOOL en = (SendMessageW(m_autoResizeCheck, BM_GETCHECK, 0, 0) == BST_UNCHECKED) ? TRUE : FALSE;
+    EnableWindow(m_maxHeightLabel, en);
+    EnableWindow(m_maxHeightEdit, en);
+    EnableWindow(m_maxHeightPxLabel, en);
+}
+
 void SettingsDialog::OnOpacityChanged() {
     int val = static_cast<int>(SendMessageW(m_opacitySlider, TBM_GETPOS, 0, 0));
     wchar_t buf[16]; wsprintfW(buf, L"%d", val);
@@ -479,6 +501,9 @@ void SettingsDialog::OnOK(HWND hwnd) {
     // MaxHeight
     { wchar_t buf[16] = {}; GetWindowTextW(m_maxHeightEdit, buf, 16);
       m_config->SetMaxHeight(std::clamp(_wtoi(buf), 200, 2000)); }
+
+    // AutoResize
+    m_config->SetAutoResize(SendMessageW(m_autoResizeCheck, BM_GETCHECK, 0, 0) == BST_CHECKED);
 
     // Checkboxes
     m_config->SetTopmost(SendMessageW(m_topmostCheck, BM_GETCHECK, 0, 0) == BST_CHECKED);

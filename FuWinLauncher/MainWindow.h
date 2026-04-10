@@ -59,6 +59,7 @@ private:
     bool m_topmost = true;
     DWORD m_exStyle = 0;
     int m_maxHeight = 600;
+    bool m_autoResize = false;
     SearchBox m_searchBox;
     HFONT m_fontName = nullptr;
     ThemeConfig m_theme;

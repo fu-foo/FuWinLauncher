@@ -41,6 +41,7 @@ public:
     UINT GetHotKeyModifiers() const { return m_hotKeyMod; }
     UINT GetHotKeyVK() const { return m_hotKeyVK; }
     int GetMaxHeight() const { return m_maxHeight; }
+    bool GetAutoResize() const { return m_autoResize; }
     bool GetTopmost() const { return m_topmost; }
     bool GetHideOnLaunch() const { return m_hideOnLaunch; }
     void SetHideOnLaunch(bool v) { m_hideOnLaunch = v; }
@@ -61,6 +62,7 @@ public:
     void SetOpacity(BYTE v) { m_opacity = v; }
     void SetHotKey(UINT mod, UINT vk) { m_hotKeyMod = mod; m_hotKeyVK = vk; }
     void SetMaxHeight(int v) { m_maxHeight = v; }
+    void SetAutoResize(bool v) { m_autoResize = v; }
     void SetTopmost(bool v) { m_topmost = v; }
 
     static std::wstring HotKeyToString(UINT mod, UINT vk);
@@ -76,6 +78,7 @@ private:
     UINT m_hotKeyMod = MOD_ALT;
     UINT m_hotKeyVK = VK_SPACE;
     int m_maxHeight = 600;
+    bool m_autoResize = false;
     bool m_topmost = true;
     bool m_hideOnLaunch = false;
     bool m_showSettingsButton = true;

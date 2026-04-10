@@ -31,6 +31,7 @@ bool MainWindow::Create(HINSTANCE hInstance, const Config& config) {
 
     m_hInstance = hInstance;
     m_maxHeight = config.GetMaxHeight();
+    m_autoResize = config.GetAutoResize();
     m_topmost = config.GetTopmost();
     m_exStyle = WND_EX_STYLE_BASE | (m_topmost ? WS_EX_TOPMOST : 0);
     m_theme = config.GetTheme();
@@ -185,7 +186,7 @@ void MainWindow::UpdateFilter() {
     int count = static_cast<int>(m_filtered.size());
     if (count < 1) count = 1;
     int clientH = CalcClientHeight(count);
-    if (clientH > m_maxHeight) clientH = m_maxHeight;
+    if (!m_autoResize && clientH > m_maxHeight) clientH = m_maxHeight;
 
     RECT wr = { 0, 0, static_cast<LONG>(m_windowWidth), clientH };
     AdjustWindowRectEx(&wr, WND_STYLE, FALSE, m_exStyle);
@@ -1149,8 +1150,9 @@ void MainWindow::ReloadFromConfig() {
                  0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     UpdatePinButton();
 
-    // Reapply max height
+    // Reapply max height / auto-resize
     m_maxHeight = m_config->GetMaxHeight();
+    m_autoResize = m_config->GetAutoResize();
 
     // Re-register hotkey
     UnregisterHotKey(m_hwnd, IDH_HOTKEY);
@@ -1304,7 +1306,7 @@ void MainWindow::ResizeToFit() {
     if (appCount < 1) appCount = DEFAULT_APP_COUNT;
 
     int clientH = CalcClientHeight(appCount);
-    if (clientH > m_maxHeight) clientH = m_maxHeight;
+    if (!m_autoResize && clientH > m_maxHeight) clientH = m_maxHeight;
 
     RECT wr = { 0, 0, static_cast<LONG>(m_windowWidth), clientH };
     AdjustWindowRectEx(&wr, WND_STYLE, FALSE, m_exStyle);
