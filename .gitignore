@@ -29,6 +29,9 @@ config.ini
 # User skins (not bundled with the app)
 skins/
 
+# Personal notes / drafts
+memo/
+
 # Editor/tool config
 .vs/
 .vscode/
