@@ -1,3 +1,32 @@
+#include <winver.h>
 #include "resource.h"
+#include "Version.h"
 
 IDI_APP_ICON ICON "app.ico"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     APP_VERSION_COMMAS
+PRODUCTVERSION  APP_VERSION_COMMAS
+FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+FILEFLAGS       0
+FILEOS          VOS_NT_WINDOWS32
+FILETYPE        VFT_APP
+FILESUBTYPE     VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "FileDescription",  "FuWinLauncher"
+            VALUE "FileVersion",      APP_VERSION_STR
+            VALUE "InternalName",     "FuWinLauncher"
+            VALUE "OriginalFilename", "FuWinLauncher.exe"
+            VALUE "ProductName",      "FuWinLauncher"
+            VALUE "ProductVersion",   APP_VERSION_STR
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0409, 1200
+    END
+END

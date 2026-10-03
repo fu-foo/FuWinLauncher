@@ -243,6 +243,7 @@ Select a skin from **Settings → Theme → Skin**. Choose `(none)` to fall back
 
 - Visual Studio 2022 (v143 toolset)
 - Windows SDK 10.0
+- Git (optional) — the version shown in Help and in the EXE properties is taken from the latest `v*` tag at build time. Without Git, or when building from a source zip, it shows `dev`.
 
 ### Build from command line
 
@@ -447,6 +448,8 @@ skins/
 ## ビルド
 
 Visual Studio 2022（v143 ツールセット）と Windows SDK 10.0 が必要です。
+
+ヘルプと EXE のプロパティに出るバージョンは、ビルド時に最新の `v*` タグから取ります。Git がない環境や、ソース zip からのビルドでは `dev` と表示されます。
 
 ```bash
 # x64 Release

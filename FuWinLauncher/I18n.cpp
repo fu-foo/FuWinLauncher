@@ -1,4 +1,5 @@
 #include "I18n.h"
+#include "Version.h"
 
 I18n& I18n::Get() {
     static I18n instance;
@@ -123,7 +124,7 @@ void I18n::Init() {
     };
     m_strings["help.text"] = {
         // Japanese
-        L"FuWinLauncher - \x30E9\x30F3\x30C1\x30E3\x30FC\x30A2\x30D7\x30EA\r\n"
+        L"FuWinLauncher " APP_VERSION_WSTR L" - \x30E9\x30F3\x30C1\x30E3\x30FC\x30A2\x30D7\x30EA\r\n"
         L"\r\n"
         L"\x25A0 \x30B7\x30E7\x30FC\x30C8\x30AB\x30C3\x30C8\x30AD\x30FC\r\n"
         L"  Alt+Space  \x8868\x793A / \x975E\x8868\x793A\x5207\x66FF\r\n"
@@ -145,7 +146,7 @@ void I18n::Init() {
         L"\r\n"
         L"GitHub: https://github.com/fu-foo/FuWinLauncher\r\n",
         // English
-        L"FuWinLauncher - Launcher App\r\n"
+        L"FuWinLauncher " APP_VERSION_WSTR L" - Launcher App\r\n"
         L"\r\n"
         L"\x25A0 Shortcut Keys\r\n"
         L"  Alt+Space  Show / Hide toggle\r\n"
