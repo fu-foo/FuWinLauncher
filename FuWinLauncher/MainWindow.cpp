@@ -793,8 +793,8 @@ void MainWindow::OnDropFiles(HDROP hDrop) {
 
 void MainWindow::LaunchSelected() {
     if (m_selectedIndex >= 0 && m_selectedIndex < static_cast<int>(m_filtered.size())) {
-        Launcher::Launch(m_filtered[m_selectedIndex]->path);
-        if (m_config && m_config->GetHideOnLaunch()) {
+        bool launched = Launcher::Launch(m_filtered[m_selectedIndex]->path);
+        if (launched && m_config && m_config->GetHideOnLaunch()) {
             Hide();
         } else {
             // Reset search state so the launcher is ready for the next pick
