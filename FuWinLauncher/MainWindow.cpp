@@ -1224,7 +1224,8 @@ void MainWindow::ApplyTheme(const ThemeConfig& theme) {
     m_searchBox.SetColors(m_theme.searchBgColor, m_theme.searchTextColor);
 
     // Apply title bar color using DWM (Windows 11+)
-    HMODULE dwm = LoadLibraryW(L"dwmapi.dll");
+    // Load from System32 only so a dwmapi.dll next to the EXE is never picked up
+    HMODULE dwm = LoadLibraryExW(L"dwmapi.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32);
     if (dwm) {
         using DwmSetAttrFunc = HRESULT(WINAPI*)(HWND, DWORD, LPCVOID, DWORD);
         auto pDwmSetAttr = reinterpret_cast<DwmSetAttrFunc>(

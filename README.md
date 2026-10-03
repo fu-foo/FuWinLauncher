@@ -77,6 +77,12 @@ That's it — it will start automatically on next login.
 - **Right-click** empty area → Add new
 - **Drag** items in the list to reorder
 
+## Security Notes
+
+- FuWinLauncher runs whatever paths are listed in `config.ini`. Keep the EXE in a folder that only you can write to.
+- `.ps1` files are launched with `powershell.exe -ExecutionPolicy Bypass`, so they run regardless of your system execution policy. Only register scripts you trust.
+- Release binaries come with `SHA256SUMS.txt` so you can verify the download.
+
 ## Configuration
 
 `config.ini` is created next to the EXE. Edit it directly or use the settings dialog (⚙ button / tray right-click → Settings).
@@ -278,6 +284,12 @@ EXE にデジタル署名がないため、初回実行時に Windows SmartScree
 | 文字入力 | アプリ絞り込み |
 
 設定項目の詳細は上記英語セクションの Settings Reference / Theme Reference を参照してください。
+
+## セキュリティ上の注意
+
+- FuWinLauncher は `config.ini` に書かれたパスをそのまま実行します。EXE は自分だけが書き込めるフォルダに置いてください。
+- `.ps1` は `powershell.exe -ExecutionPolicy Bypass` で起動するため、システムの実行ポリシーに関係なく実行されます。信頼できるスクリプトだけを登録してください。
+- リリースには `SHA256SUMS.txt` を同梱しているので、ダウンロードした EXE を検証できます。
 
 ## スキン
 

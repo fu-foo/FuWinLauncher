@@ -24,9 +24,17 @@ bool Launcher::Launch(const std::wstring& path) {
 
     HINSTANCE result;
     if (ext == L".ps1") {
+        // Use the full System32 path so a powershell.exe in the current
+        // directory or on PATH is never picked up instead
+        wchar_t sysDir[MAX_PATH] = {};
+        UINT sysLen = GetSystemDirectoryW(sysDir, MAX_PATH);
+        if (sysLen == 0 || sysLen >= MAX_PATH) return false;
+        std::wstring powershell = std::wstring(sysDir) +
+            L"\\WindowsPowerShell\\v1.0\\powershell.exe";
+
         std::wstring args = L"-ExecutionPolicy Bypass -File \"" + expandedPath + L"\"";
         result = ShellExecuteW(
-            nullptr, L"open", L"powershell.exe",
+            nullptr, L"open", powershell.c_str(),
             args.c_str(), nullptr, SW_SHOWNORMAL
         );
     } else {
